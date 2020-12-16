@@ -12,13 +12,13 @@ public class PanelTable extends JScrollPane {
     public PanelTable(TableEngines tableEngines) {
         super(tableEngines);
         this.tableEngines = tableEngines;
-        initComponents();
+        //initComponents();
     }
 
-    //генерация параметров
-    private void initComponents(){
-        tableEngines.addRows(EngineFactory.generate(rnd.nextInt(6) + 40));
-    }
+//    //генерация параметров
+//    private void initComponents(){
+//        tableEngines.addRows(EngineFactory.generate(rnd.nextInt(6) + 40));
+//    }
 
     public TableEngines getTableEngines() {
         return tableEngines;

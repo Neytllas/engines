@@ -50,6 +50,7 @@ public class ItemPanel extends JFrame {
     }
 
     private void checkAllErrors() {
+        int labelsToSkip = engineType == 0 ? 6 : 7;
         for(int i=0;i<errorLabels.size();i++) {
             if(errorLabels.get(i).getText() != "") {
                 saveButton.setEnabled(false);
@@ -171,9 +172,9 @@ public class ItemPanel extends JFrame {
 
         c.gridx = 0;
         c.gridy = 2;
-        c.anchor = GridBagConstraints.LAST_LINE_START;
+        c.anchor = GridBagConstraints.LAST_LINE_END;
         c.gridwidth = 1;
-        c.insets = new Insets(0,0,0,0);
+        c.insets = new Insets(0,0,0,8);
         add(saveButton, c);
 
         c.gridx = 1;
@@ -214,7 +215,7 @@ public class ItemPanel extends JFrame {
         }
         if(field.isEnabled() && !validate && !isSearchMode){
             if(field == textFields.get(0)||field==textFields.get(1)){
-            errorLabel.setText("Заполните поле");
+                errorLabel.setText("Заполните поле");
             }
             else errorLabel.setText("Введите число");
             saveButton.setEnabled(false);
@@ -293,6 +294,9 @@ public class ItemPanel extends JFrame {
         for(JTextField tf : textFields){
             tf.setText("");
         }
+        for(JLabel tf : errorLabels){
+            tf.setText("");
+        }
     }
 
     // Устанавливает значение указанного параметра по заданному объекту.
@@ -305,11 +309,13 @@ public class ItemPanel extends JFrame {
         String[] data = engine.getData();
 
         if(getEngineType() == 0){
-           textFields.get(0).setText(data[0]);
-           textFields.get(1).setText(data[1]);
-           textFields.get(2).setText(data[2]);
-           textFields.get(3).setText(data[3]);
-           textFields.get(4).setText(data[4]);
+            textFields.get(0).setText(data[0]);
+            textFields.get(1).setText(data[1]);
+            textFields.get(2).setText(data[2]);
+            textFields.get(3).setText(data[3]);
+            textFields.get(4).setText(data[4]);
+//            textFields.get(4).setEnabled(true);
+//            textFields.get(5).setEnabled(false);
         }
         if(getEngineType() == 1){
             textFields.get(0).setText(data[0]);
@@ -317,6 +323,8 @@ public class ItemPanel extends JFrame {
             textFields.get(2).setText(data[2]);
             textFields.get(3).setText(data[3]);
             textFields.get(5).setText(data[5]);
+//            textFields.get(4).setEnabled(false);
+//            textFields.get(5).setEnabled(true);
         }
     }
 
@@ -341,6 +349,7 @@ public class ItemPanel extends JFrame {
     // добавление двигателя
     public void addNew(Engine engine){
         clearFields();
+        engineType = engine instanceof JetEngine ? 1 : 0;
         validateType();
 
         setTitle("Добавление");

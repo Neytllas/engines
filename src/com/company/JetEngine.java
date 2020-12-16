@@ -8,7 +8,10 @@ public class JetEngine extends Engine{
         super(name, manufacturer, power, fuelConsumption, "Турбореактивный двигатель");
         this.traction = traction;
     }
-
+    public JetEngine(int id,String name, String manufacturer, double power, double fuelConsumption, double traction) {
+        super(id, name, manufacturer, power, fuelConsumption, "Турбореактивный двигатель");
+        this.traction = traction;
+    }
     public double getTraction() {
         return traction;
     }

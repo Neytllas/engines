@@ -1,6 +1,7 @@
 package com.company;
 
 public abstract class Engine {
+    private int id;
     private String type;
     private String name;
     private String manufacturer;
@@ -48,7 +49,18 @@ public abstract class Engine {
     // типы данных для каждого поля
     public static final Types[] TYPES = new Types[]{Types.Text, Types.Text, Types.Number, Types.Number, Types.Integer, Types.Number};
 
+
+
     public Engine(String name, String manufacturer, double power, double fuelConsumption, String type) {
+        this.name = name;
+        this.manufacturer = manufacturer;
+        this.power = power;
+        this.fuelConsumption = fuelConsumption;
+        this.type = type;
+    }
+
+    public Engine(int id, String name, String manufacturer, double power, double fuelConsumption, String type) {
+        this.id = id;
         this.name = name;
         this.manufacturer = manufacturer;
         this.power = power;
@@ -98,4 +110,7 @@ public abstract class Engine {
     public String[] getData(){
         return new String[]{getName(), getManufacturer(), String.valueOf(getPower()), String.valueOf(getFuelConsumption())};
     }
+
+    public int getId(){return this.id;}
+    public void setId(int id){this.id = id;}
 }

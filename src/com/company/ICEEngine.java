@@ -12,6 +12,10 @@ public class ICEEngine extends Engine{
         this.cylindersCount = cylindersCount;
     }
 
+    public ICEEngine(int id,String name, String manufacturer, double power, double fuelConsumption, int cylindersCount) {
+        super(id,name, manufacturer, power, fuelConsumption, "ДВС");
+        this.cylindersCount = cylindersCount;
+    }
     public int getCylindersCount() {
         return cylindersCount;
     }

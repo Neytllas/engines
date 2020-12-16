@@ -1,5 +1,6 @@
 package GUI;
 
+import Database.Database;
 import com.company.Engine;
 
 import javax.swing.*;
@@ -7,9 +8,11 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -22,6 +25,8 @@ public class TableEngines extends JTable {
     private ArrayList<Engine> engines = new ArrayList<>();
     // контекстное меню таблицы
     private MenuTable menuPopup = new MenuTable();
+    // объект класса бд
+    Database db = new Database();
 
     //бинд объекта для доступа к нему из нутри вложенных классов (ActionListener)
     private TableEngines self = this;
@@ -33,6 +38,18 @@ public class TableEngines extends JTable {
 
     public TableEngines() {
         super();
+
+        try {
+//устанавливаем соединение
+            db.openConnection();
+//считываем данные
+            engines = db.read();
+//закрываем соединение
+            db.closeConnection();
+            System.out.println("Данные считаны.Подключение закрыто.");
+        } catch (SQLException e) {
+            System.out.println("Подключения закрыты!");
+        }
 
 
 
@@ -55,6 +72,9 @@ public class TableEngines extends JTable {
         setRowSorter(sorter);
         // задание модели для таблицы
         setModel(tableModel);
+        for(Engine engine : engines) {
+            tableModel.addRow(engine.getData());
+        }
 
         // установка событий контекстного меню
         menuPopup.addPopupMenuListener(new PopupMenuListener() {
@@ -102,8 +122,18 @@ public class TableEngines extends JTable {
     }
 
     public void addRow(Engine data){
-        engines.add(data);
-        addRow(data.getData());
+        try
+        {
+            engines.add(data);
+            addRow(data.getData());
+            db.openConnection();
+            db.AddControl(data);
+            db.closeConnection();
+
+        System.out.println("Запись добавлена.Подключение закрыто.");
+    } catch ( SQLException e) {
+        System.out.println("Подключение закрыто!");
+    }
     }
 
     public void addRows(Engine[] data){
@@ -119,9 +149,13 @@ public class TableEngines extends JTable {
         }
     }
 
-    public void setRow(int row, Engine engine){
+    public void setRow(int row, Engine engine) throws SQLException
+    {
         engines.set(row, engine);
         setRow(row, engine.getData());
+        db.openConnection();
+        db.UpdateControl(engine);
+        db.closeConnection();
     }
 
     public int findEngine(String query){
@@ -139,10 +173,22 @@ public class TableEngines extends JTable {
     }
 
     //удаление строки
-    public void deleteRow(int row){
-        engines.remove(row);
-        tableModel.removeRow(row);
+    public void deleteRow(int row)
+    {
+        try
+        {
+            engines.remove(row);
+            tableModel.removeRow(row);
+            db.openConnection();
+            db.deleteControl(row);
+            db.closeConnection();
+            System.out.println("Запись удалена.Подключение закрыто");
+        } catch (SQLException e)
+        {
+            System.out.println("Подключение закрыто");
+        }
     }
+
 
     public void deleteRow(String query){
         deleteRow(findEngine(query));

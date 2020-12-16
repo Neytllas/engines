@@ -13,6 +13,7 @@ import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class FrameMain extends JFrame {
@@ -125,7 +126,6 @@ public class FrameMain extends JFrame {
                                 Double.parseDouble(itemPanel.getTextFields().get(5).getText())
                         );
                     }
-
                     // обработчик событий
                 }catch (NumberFormatException ex){
                     JOptionPane.showMessageDialog(self, "Проверьте введенные данные", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -142,8 +142,16 @@ public class FrameMain extends JFrame {
                 if(!itemPanel.isEditMode()){
                     panelTable.getTableEngines().addRow(engine);
                 }else{
+                    int id = panelTable.getTableEngines().getEngines().get(panelTable.getTableEngines().getSelectedRow()).getId();
+                    engine.setId(id);
                     int index = panelTable.getTableEngines().getSelectedRow();
-                    panelTable.getTableEngines().setRow(index, engine);
+                    try
+                    {
+                        panelTable.getTableEngines().setRow(index, engine);
+                    } catch (SQLException ex)
+                    {
+                        ex.printStackTrace();
+                    }
                 }
                 itemPanel.dispose();
             }
