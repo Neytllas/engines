@@ -314,8 +314,6 @@ public class ItemPanel extends JFrame {
             textFields.get(2).setText(data[2]);
             textFields.get(3).setText(data[3]);
             textFields.get(4).setText(data[4]);
-//            textFields.get(4).setEnabled(true);
-//            textFields.get(5).setEnabled(false);
         }
         if(getEngineType() == 1){
             textFields.get(0).setText(data[0]);
@@ -323,8 +321,6 @@ public class ItemPanel extends JFrame {
             textFields.get(2).setText(data[2]);
             textFields.get(3).setText(data[3]);
             textFields.get(5).setText(data[5]);
-//            textFields.get(4).setEnabled(false);
-//            textFields.get(5).setEnabled(true);
         }
     }
 
